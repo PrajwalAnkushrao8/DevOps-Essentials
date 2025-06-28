@@ -4,7 +4,7 @@ A comprehensive, open-source DevOps learning hub covering Linux, CI/CD, IaC, con
 
 ## Topics
 - **Linux**: System administration (e.g., mounting, LVM, SSH, monitoring).
- **Below Topics Are Yet To Be Added**
+- **Below Topics Are Yet To Be Added**
 - **SDLC**: Software Development Life Cycle methodologies (Agile, DevOps).
 - **CI/CD**: Pipelines with Jenkins, GitHub Actions, GitLab CI.
 - **IaC**: Infrastructure as Code with Terraform, Ansible.
