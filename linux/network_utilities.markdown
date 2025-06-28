@@ -1,6 +1,6 @@
 # Linux Network Utilities
 
-This document covers Linux commands for network diagnostics and management: `ping`, `netstat`, `ss`, `ip`, `nmcli`, `curl`, and `wget`. Each command includes a description, common options, and practical examples to help you troubleshoot and interact with networks effectively.
+This document covers Linux commands for network diagnostics and management: `ping`, `netstat`, `ss`, `ip`, `nmcli`, `curl`, and `wget`. Each command includes a description, common options, and practical examples to help you troubleshoot and interact with networks effectively. A comparison between `curl` and `wget` is also included.
 
 ## 1. ping (Packet Internet Groper)
 - **Description**: Tests network connectivity by sending ICMP echo requests to a host and measuring response time.
@@ -90,7 +90,7 @@ This document covers Linux commands for network diagnostics and management: `pin
 - **Note**: Requires NetworkManager (`sudo apt install network-manager`).
 
 ## 6. curl (Client URL)
-- **Description**: Transfers data to/from a server, supporting protocols like HTTP, HTTPS, FTP, etc.
+- **Description**: Transfers data to/from a server, supporting protocols like HTTP, HTTPS, FTP, and more. Ideal for scripting and API interactions.
 - **Common Options**:
   - `-o [file]`: Save output to a file.
   - `-I`: Fetch headers only.
@@ -107,7 +107,7 @@ This document covers Linux commands for network diagnostics and management: `pin
   ```
 
 ## 7. wget (Web Get)
-- **Description**: Downloads files from the web, supporting HTTP, HTTPS, and FTP.
+- **Description**: Downloads files from the web, supporting HTTP, HTTPS, and FTP. Designed for robust file downloads, including recursive fetching.
 - **Common Options**:
   - `-O [file]`: Save output to a specific file.
   - `-c`: Resume a partially downloaded file.
@@ -123,11 +123,40 @@ This document covers Linux commands for network diagnostics and management: `pin
   wget --limit-rate=100k http://example.com/file.zip  # Limit speed to 100 KB/s
   ```
 
+## Comparison: curl vs. wget
+- **Purpose**:
+  - `curl`: Designed for transferring data, including API requests, with support for multiple protocols (HTTP, HTTPS, FTP, SFTP, etc.). Best for scripting and complex requests.
+  - `wget`: Focused on downloading files and recursive website fetching. Ideal for simple downloads and mirroring websites.
+- **Protocols**:
+  - `curl`: Supports a broader range of protocols (e.g., HTTP, HTTPS, FTP, SFTP, LDAP, IMAP).
+  - `wget`: Limited to HTTP, HTTPS, and FTP.
+- **Output Handling**:
+  - `curl`: Outputs to `stdout` by default, requiring `-o` or `>` for file saving.
+  - `wget`: Saves to a file by default, with automatic filename detection.
+- **Interactivity**:
+  - `curl`: Better for scripting, API calls, and non-interactive tasks (e.g., POST requests, authentication).
+  - `wget`: Better for recursive downloads and resuming interrupted downloads.
+- **Features**:
+  - `curl`: Supports advanced HTTP features (e.g., POST, PUT, headers, cookies, authentication).
+  - `wget`: Supports recursive downloads (`-r`) and bandwidth limiting (`--limit-rate`).
+- **Examples**:
+  - Use `curl` for API testing:
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -d '{"key":"value"}' http://api.example.com
+    ```
+  - Use `wget` for recursive website download:
+    ```bash
+    wget -r http://example.com
+    ```
+- **When to Use**:
+  - Choose `curl` for API interactions, custom HTTP requests, or non-HTTP protocols.
+  - Choose `wget` for simple file downloads, resuming large downloads, or mirroring websites.
+
 ## Practical Tips
 - **Use `ping` for quick checks**: Test connectivity before deeper troubleshooting.
-- **Prefer `ss` over `netstat`**: `ss` is faster and more modern, but `netstat` may still be used on older systems.
+- **Prefer `ss` over `netstat`**: `ss` is faster and more modern, but `netstat` may be used on older systems.
 - **Combine `ip` with `nmcli`**: Use `ip` for low-level interface details and `nmcli` for managing NetworkManager connections.
-- **Secure `curl` and `wget`**: Use HTTPS URLs and verify certificates (e.g., `curl --cacert [file]`).
+- **Secure `curl` and `wget`**: Use HTTPS URLs and verify certificates (e.g., `curl --cacert [file]` or `wget --no-check-certificate` for testing).
 - **Pipe `curl` output**: Combine with `grep` or `jq` for parsing (e.g., `curl api.example.com | jq .`).
 - **Monitor with `watch`**: Use `watch ss -tuln` to monitor network sockets in real-time.
 
@@ -138,6 +167,8 @@ This document covers Linux commands for network diagnostics and management: `pin
 4. Show all network connections with `nmcli`.
 5. Download a file from `http://example.com/file.txt` using `wget`.
 6. Fetch the headers of `http://example.com` using `curl`.
+7. Use `curl` to send a POST request with data `name=test` to `http://example.com/api`.
+8. Use `wget` to resume a partial download of a large file.
 
 **Solution**:
 ```bash
@@ -147,4 +178,6 @@ ip route show
 nmcli connection show
 wget http://example.com/file.txt
 curl -I http://example.com
+curl -X POST -d "name=test" http://example.com/api
+wget -c http://example.com/largefile.zip
 ```
